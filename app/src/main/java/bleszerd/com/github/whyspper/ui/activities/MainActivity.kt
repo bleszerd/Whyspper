@@ -2,16 +2,17 @@ package bleszerd.com.github.whyspper.ui.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
-import bleszerd.com.github.whyspper.adapters.MusicAdapter
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.MusicListFragment
 
@@ -81,11 +82,20 @@ class MainActivity : AppCompatActivity() {
             do {
                 val currentTitle = songCursor.getString(songTitle)
                 val currentLocation = songCursor.getString(songLocation)
-                arrayList.add(AudioModel(currentTitle, currentLocation))
+                val currentArt = getAlbumImage(currentLocation)
+                arrayList.add(AudioModel(currentTitle, currentLocation, currentArt))
             } while (songCursor.moveToNext())
         }
 
         songCursor?.close()
+    }
+
+    private fun getAlbumImage(path: String): Bitmap? {
+        val mmr = MediaMetadataRetriever()
+        mmr.setDataSource(path)
+        val data = mmr.embeddedPicture
+//        val title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+        return if (data != null) BitmapFactory.decodeByteArray(data, 0, data.size) else null
     }
 
     override fun onRequestPermissionsResult(

@@ -1,8 +1,10 @@
 package bleszerd.com.github.whyspper.adapters
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
@@ -14,6 +16,11 @@ class MusicAdapter(private val arrayList: List<AudioModel>) :
         fun bind(audioModel: AudioModel){
             itemView.findViewById<TextView>(R.id.title).text = audioModel.title
             itemView.findViewById<TextView>(R.id.path).text = audioModel.location
+            if(audioModel.art != null){
+                itemView.findViewById<ImageView>(R.id.art).setImageBitmap(audioModel.art)
+            } else {
+                itemView.findViewById<ImageView>(R.id.art).setImageResource(R.drawable.ic_launcher_background)
+            }
         }
     }
 
