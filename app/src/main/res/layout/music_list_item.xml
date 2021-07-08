@@ -15,7 +15,6 @@
         android:text="Music Name"
         android:layout_width="wrap_content"
         android:textStyle="bold"
-        android:textColor="@color/black"
         android:layout_height="wrap_content" />
 
     <TextView

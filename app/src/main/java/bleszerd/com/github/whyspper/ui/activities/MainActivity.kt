@@ -4,8 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.AudioAttributes
 import android.media.MediaMetadataRetriever
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.MusicListFragment
+import javax.xml.transform.Source
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,20 +61,34 @@ class MainActivity : AppCompatActivity() {
                     MY_PERMISSION_REQUEST
                 )
             }
-        } else {
-            doStuff()
         }
     }
 
     private fun doStuff() {
         getMusic()
-        println(arrayList)
     }
 
     private fun getMusic() {
+        //Initialize array of audioModel
         arrayList = arrayListOf()
+
+        //Define the URL schema to search files
         val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val songCursor = contentResolver.query(songUri, null, null, null, null)
+
+        //Find the content based on Projection (second argument)
+
+        //selection "${MediaStore.Audio.Media.TITLE} = 'emicida semente with photyo'" return only this music, can be usefull
+        //to search action
+        //selection "${MediaStore.Audio.Media.TITLE} LIKE '%AUD%'" return all with has "AUD" in title
+        //val args = arrayOf("%AUD%")
+        val songCursor = contentResolver.query(
+            songUri,
+            arrayOf(MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA),
+            null         /*"${MediaStore.Audio.Media.TITLE} LIKE ?"*/,
+            null      /*args*/,
+            null        /*"${MediaStore.Audio.Media.TITLE} DESC"*/
+        )
+
 
         if (songCursor != null && songCursor.moveToFirst()) {
             val songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
@@ -81,6 +96,8 @@ class MainActivity : AppCompatActivity() {
 
             do {
                 val currentTitle = songCursor.getString(songTitle)
+                println(currentTitle)
+
                 val currentLocation = songCursor.getString(songLocation)
                 val currentArt = getAlbumImage(currentLocation)
                 arrayList.add(AudioModel(currentTitle, currentLocation, currentArt))
