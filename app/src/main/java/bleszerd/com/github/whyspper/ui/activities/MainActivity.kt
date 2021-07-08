@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.AudioAttributes
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,25 +14,25 @@ import androidx.core.content.ContextCompat
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.MusicListFragment
-import javax.xml.transform.Source
 
 
 class MainActivity : AppCompatActivity() {
     private val MY_PERMISSION_REQUEST = 1
 
-    private lateinit var arrayList: MutableList<AudioModel>
+    private lateinit var audioArray: MutableList<AudioModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         checkForPermissions()
-        doStuff()
+        populateAudioArray()
 
         if (savedInstanceState == null) {
+            //attach fragment to frameRoot (on main activity layout file) passing a audioArray by newInstance companion method
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.frameRoot, MusicListFragment.newInstance(arrayList))
+                .add(R.id.frameRoot, MusicListFragment.newInstance(audioArray))
                 .commit()
         }
     }
@@ -64,20 +63,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun doStuff() {
+    private fun populateAudioArray() {
         getMusic()
     }
 
     private fun getMusic() {
         //Initialize array of audioModel
-        arrayList = arrayListOf()
+        audioArray = arrayListOf()
 
         //Define the URL schema to search files
         val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
         //Find the content based on Projection (second argument)
-
-        //selection "${MediaStore.Audio.Media.TITLE} = 'emicida semente with photyo'" return only this music, can be usefull
+        //selection "${MediaStore.Audio.Media.TITLE} = 'emicida semente with photyo'" return only this music, can be useful
         //to search action
         //selection "${MediaStore.Audio.Media.TITLE} LIKE '%AUD%'" return all with has "AUD" in title
         //val args = arrayOf("%AUD%")
@@ -89,32 +87,51 @@ class MainActivity : AppCompatActivity() {
             null        /*"${MediaStore.Audio.Media.TITLE} DESC"*/
         )
 
-
+        //If cursor and cursor is not empty
         if (songCursor != null && songCursor.moveToFirst()) {
+            //prepare to get audio title column
             val songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
+            //prepare to get audio data column (File Uri)
             val songLocation = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
 
             do {
+                //get data from every element (one by one)
+                    // get title
                 val currentTitle = songCursor.getString(songTitle)
-                println(currentTitle)
-
+                    //get location uri
                 val currentLocation = songCursor.getString(songLocation)
-                val currentArt = getAlbumImage(currentLocation)
-                arrayList.add(AudioModel(currentTitle, currentLocation, currentArt))
+                    //get album img
+                val currentArtUri = getAlbumImage(currentLocation)
+
+                //add to list of audios
+                audioArray.add(AudioModel(currentTitle, currentLocation, currentArtUri))
+                //repeat while has more rows in db
             } while (songCursor.moveToNext())
         }
 
+        //detach database connection
         songCursor?.close()
     }
 
     private fun getAlbumImage(path: String): Bitmap? {
+        //create MediaMetadataRetriever instance
         val mmr = MediaMetadataRetriever()
+
+        //pointer the MediaMetadataRetriever to a specific path
         mmr.setDataSource(path)
+
+        //get a album picture from metadata
         val data = mmr.embeddedPicture
-//        val title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+
+        //can be used for extract a lot of others info's
+        //val bitrate = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+
+        //return the album cover img if exists, else return null
+        //BitmapFactory.decodeByteArray get the DATA and parse into bitmap
         return if (data != null) BitmapFactory.decodeByteArray(data, 0, data.size) else null
     }
 
+    //callback from requestPermissions
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -122,17 +139,20 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        //verify permission
         when (requestCode) {
             MY_PERMISSION_REQUEST -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //if permission is granted...
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
                         Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
-                        doStuff()
-                    } else {
+                    }
+                    //if permission is denied...
+                    else {
                         Toast.makeText(this, "No permission", Toast.LENGTH_SHORT).show()
                     }
                     return

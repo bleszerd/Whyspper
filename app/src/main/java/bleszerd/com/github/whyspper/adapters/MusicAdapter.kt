@@ -12,21 +12,26 @@ import bleszerd.com.github.whyspper.models.AudioModel
 
 class MusicAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(audioModel: AudioModel){
+        fun bind(audioModel: AudioModel) {
             itemView.findViewById<TextView>(R.id.title).text = audioModel.title
             itemView.findViewById<TextView>(R.id.path).text = audioModel.location
-            if(audioModel.art != null){
+
+            if (audioModel.art != null) {
                 itemView.findViewById<ImageView>(R.id.art).setImageBitmap(audioModel.art)
             } else {
-                itemView.findViewById<ImageView>(R.id.art).setImageResource(R.drawable.ic_launcher_background)
+                itemView.findViewById<ImageView>(R.id.art)
+                    .setImageResource(R.drawable.ic_launcher_background)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicAdapter.ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.music_list_item, parent, false)
+            LayoutInflater
+                .from(parent.context)
+                .inflate(R.layout.music_list_item, parent, false)
         )
     }
 

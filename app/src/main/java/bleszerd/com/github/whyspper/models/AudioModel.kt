@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import java.time.Duration
 
+//audio data model
 data class AudioModel(
     val title: String,
     val location: String,

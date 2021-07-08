@@ -16,6 +16,7 @@ class MusicListFragment : Fragment() {
         private lateinit var arrayListMusic: List<AudioModel>
 
         fun newInstance(audioList: List<AudioModel>): MusicListFragment {
+            //get arrayListMusic from newInstance constructor
             arrayListMusic = audioList
             return MusicListFragment()
         }
@@ -26,8 +27,10 @@ class MusicListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = layoutInflater.inflate(R.layout.music_list_fragment, container, false)
+        val view = layoutInflater
+            .inflate(R.layout.music_list_fragment, container, false)
 
+        //set recyclerview adapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MusicAdapter(arrayListMusic)
