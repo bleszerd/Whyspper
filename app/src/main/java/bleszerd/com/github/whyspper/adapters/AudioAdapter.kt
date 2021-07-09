@@ -8,9 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
+import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment
+import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelected
 
 class AudioAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
+    private lateinit var listener: OnAudioSelected
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(audioModel: AudioModel) {
@@ -33,7 +36,16 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
 
     override fun onBindViewHolder(holder: AudioAdapter.ViewHolder, position: Int) {
         holder.bind(arrayList[position])
+        val context = holder.itemView.context
+        if (context is OnAudioSelected) {
+            listener = context
+        }
+        holder.itemView.setOnClickListener {
+            listener.onAudioSelected(arrayList[position])
+        }
     }
 
     override fun getItemCount(): Int = arrayList.size
+
+
 }

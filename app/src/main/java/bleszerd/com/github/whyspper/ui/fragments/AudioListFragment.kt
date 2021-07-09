@@ -1,5 +1,6 @@
 package bleszerd.com.github.whyspper.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,5 +37,9 @@ class AudioListFragment : Fragment() {
         recyclerView.adapter = AudioAdapter(arrayListMusic)
 
         return view
+    }
+
+    interface OnAudioSelected{
+        fun onAudioSelected(audio: AudioModel)
     }
 }

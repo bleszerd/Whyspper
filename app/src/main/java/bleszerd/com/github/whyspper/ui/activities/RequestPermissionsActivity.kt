@@ -1,6 +1,7 @@
 package bleszerd.com.github.whyspper.ui.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -43,6 +44,9 @@ class RequestPermissionsActivity : AppCompatActivity() {
         when(requestCode){
             EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
                 if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED){
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("permissionResult", PackageManager.PERMISSION_GRANTED)
+                    setResult(RESULT_OK, resultIntent)
                     finish()
                 } else {
                     val helpText = findViewById<TextView>(R.id.helpText)
