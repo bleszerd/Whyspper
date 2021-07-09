@@ -8,17 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
-import bleszerd.com.github.whyspper.adapters.MusicAdapter
+import bleszerd.com.github.whyspper.adapters.AudioAdapter
 import bleszerd.com.github.whyspper.models.AudioModel
 
-class MusicListFragment : Fragment() {
+class AudioListFragment : Fragment() {
     companion object {
         private lateinit var arrayListMusic: List<AudioModel>
 
-        fun newInstance(audioList: List<AudioModel>): MusicListFragment {
+        fun newInstance(audioList: List<AudioModel>): AudioListFragment {
             //get arrayListMusic from newInstance constructor
             arrayListMusic = audioList
-            return MusicListFragment()
+            return AudioListFragment()
         }
     }
 
@@ -28,12 +28,12 @@ class MusicListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = layoutInflater
-            .inflate(R.layout.music_list_fragment, container, false)
+            .inflate(R.layout.audio_list_fragment, container, false)
 
         //set recyclerview adapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MusicAdapter(arrayListMusic)
+        recyclerView.adapter = AudioAdapter(arrayListMusic)
 
         return view
     }

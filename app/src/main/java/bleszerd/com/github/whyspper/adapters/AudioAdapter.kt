@@ -1,6 +1,5 @@
 package bleszerd.com.github.whyspper.adapters
 
-import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
 
-class MusicAdapter(private val arrayList: List<AudioModel>) :
-    RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
+class AudioAdapter(private val arrayList: List<AudioModel>) :
+    RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(audioModel: AudioModel) {
@@ -20,22 +19,19 @@ class MusicAdapter(private val arrayList: List<AudioModel>) :
 
             if (audioModel.art != null) {
                 itemView.findViewById<ImageView>(R.id.art).setImageBitmap(audioModel.art)
-            } else {
-                itemView.findViewById<ImageView>(R.id.art)
-                    .setImageResource(R.drawable.ic_launcher_background)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioAdapter.ViewHolder {
         return ViewHolder(
             LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.music_list_item, parent, false)
+                .inflate(R.layout.audio_item_fragment, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: MusicAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AudioAdapter.ViewHolder, position: Int) {
         holder.bind(arrayList[position])
     }
 
