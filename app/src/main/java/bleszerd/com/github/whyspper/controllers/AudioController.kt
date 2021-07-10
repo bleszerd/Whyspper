@@ -7,13 +7,16 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.ImageButton
+import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
+import bleszerd.com.github.whyspper.ui.fragments.BottomAudioActionContentFragment
 
 class AudioController {
-    val bitmapController = BitmapController()
-    var currentPlayer: MediaPlayer? = null
+    private val bitmapController = BitmapController()
 
     companion object {
+        private var currentPlayer: MediaPlayer? = null
         val audioDataArray = mutableListOf<AudioModel>()
     }
 
@@ -77,15 +80,19 @@ class AudioController {
             currentPlayer = MediaPlayer.create(context, audioUri)
             currentPlayer?.start()
         }
-//        if(currentPlayer == null){
-//            currentPlayer = MediaPlayer.create(context, audioUri)
-//        } else {
-//            if(currentPlayer!!.isPlaying){
-//                currentPlayer?.stop()
-//            }
-//
-//            currentPlayer?.setDataSource(context, audioUri)
-//            currentPlayer?.start()
-//        }
+    }
+
+    fun pauseOrPlay(button: ImageButton){
+        if(currentPlayer?.isPlaying!!){
+            currentPlayer?.pause()
+            button.setImageResource(R.drawable.ic_play_btn)
+        } else {
+            currentPlayer?.start()
+            button.setImageResource(R.drawable.ic_pause_btn)
+        }
+    }
+
+    fun resume(){
+        currentPlayer?.start()
     }
 }

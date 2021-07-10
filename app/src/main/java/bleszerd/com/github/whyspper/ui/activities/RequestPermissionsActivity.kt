@@ -22,11 +22,13 @@ class RequestPermissionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.request_permissions_activity)
 
+        //set buttonPermission on click
         findViewById<Button>(R.id.buttonPermission).setOnClickListener {
             requestPermissions()
         }
     }
 
+    //request permissions
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
             this,
@@ -35,6 +37,7 @@ class RequestPermissionsActivity : AppCompatActivity() {
         )
     }
 
+    //handle permission result
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -44,11 +47,13 @@ class RequestPermissionsActivity : AppCompatActivity() {
         when(requestCode){
             EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
                 if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED){
+                    //if permission is granted setResult to permissionContract and finish this activity
                     val resultIntent = Intent()
                     resultIntent.putExtra("permissionResult", PackageManager.PERMISSION_GRANTED)
                     setResult(RESULT_OK, resultIntent)
                     finish()
                 } else {
+                    //if permission is denied set text to help user to allow permissions or reinstall the app
                     val helpText = findViewById<TextView>(R.id.helpText)
                     val centerText = findViewById<TextView>(R.id.centerDescription)
                     centerText.text = "Você negou o acesso aos dados!"

@@ -10,6 +10,7 @@ import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment
 import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelected
+import bleszerd.com.github.whyspper.ui.fragments.BottomAudioActionContentFragment
 
 class AudioAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
