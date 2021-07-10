@@ -11,6 +11,7 @@ import bleszerd.com.github.whyspper.models.AudioModel
 
 class AudioController {
     val bitmapController = BitmapController()
+    var currentPlayer: MediaPlayer? = null
 
     companion object {
         val audioDataArray = mutableListOf<AudioModel>()
@@ -67,7 +68,24 @@ class AudioController {
     }
 
     fun playFromUri(context: Context, audioUri: Uri){
-        val mediaPlayer = MediaPlayer.create(context, audioUri)
-        mediaPlayer.start()
+        if(currentPlayer != null){
+            currentPlayer?.stop()
+            currentPlayer?.release()
+            currentPlayer = MediaPlayer.create(context, audioUri)
+            currentPlayer?.start()
+        } else {
+            currentPlayer = MediaPlayer.create(context, audioUri)
+            currentPlayer?.start()
+        }
+//        if(currentPlayer == null){
+//            currentPlayer = MediaPlayer.create(context, audioUri)
+//        } else {
+//            if(currentPlayer!!.isPlaying){
+//                currentPlayer?.stop()
+//            }
+//
+//            currentPlayer?.setDataSource(context, audioUri)
+//            currentPlayer?.start()
+//        }
     }
 }

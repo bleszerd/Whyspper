@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
                 .commit()
 
             if(isExternalStoragePermissionGranted()){
+                audioController.getAudiosFromDevice(this)
+
                 supportFragmentManager
                     .beginTransaction()
                     .add(
