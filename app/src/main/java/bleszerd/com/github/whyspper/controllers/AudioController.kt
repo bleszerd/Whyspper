@@ -1,26 +1,24 @@
 package bleszerd.com.github.whyspper.controllers
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.MediaMetadataRetriever
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.ImageButton
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
-import bleszerd.com.github.whyspper.ui.fragments.BottomAudioActionContentFragment
 
 class AudioController {
     private val bitmapController = BitmapController()
 
     companion object {
         private var currentPlayer: MediaPlayer? = null
+        private lateinit var currentAudio: AudioModel
         val audioDataArray = mutableListOf<AudioModel>()
     }
 
-    fun getAudiosFromDevice(context: Context) : MutableList<AudioModel> {
+    fun getAudiosFromDevice(context: Context): MutableList<AudioModel> {
         //Define the URL schema to search files
         val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
@@ -31,7 +29,11 @@ class AudioController {
         //val args = arrayOf("%AUD%")
         val songCursor = context.contentResolver.query(
             songUri,
-            arrayOf(MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA),
+            arrayOf(
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Artists.ARTIST
+            ),
             null         /*"${MediaStore.Audio.Media.TITLE} LIKE ?"*/,
             null      /*args*/,
             null        /*"${MediaStore.Audio.Media.TITLE} DESC"*/
@@ -43,6 +45,8 @@ class AudioController {
             val songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
             //prepare to get audio data column (File Uri)
             val songLocation = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
+            //prepare to get audio artist column
+            val songArtist = songCursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST)
 
             do {
                 //get data from every element (one by one)
@@ -51,14 +55,21 @@ class AudioController {
                 //get location uri
                 val currentLocation = songCursor.getString(songLocation)
                 //get album img
-                val currentArtUri = bitmapController.getAlbumImage(currentLocation)
+                val currentArtBitmap = bitmapController.getAlbumImage(currentLocation)
+                //get artist
+                val currentArtist = songCursor.getString(songArtist)
+                //check if audio is favorite
+                val currentFavorite = false
 
                 //add to list of audios
                 audioDataArray.add(
                     AudioModel(
                         currentTitle,
+                        currentArtist,
+                        currentFavorite,
                         currentLocation,
-                        currentArtUri
+                        currentArtBitmap,
+                        "${currentTitle}:${currentLocation}"
                     )
                 )
                 //repeat while has more rows in db
@@ -70,8 +81,9 @@ class AudioController {
         return audioDataArray
     }
 
-    fun playFromUri(context: Context, audioUri: Uri){
-        if(currentPlayer != null){
+    fun playFromUri(context: Context, audioUri: Uri) {
+
+        if (currentPlayer != null) {
             currentPlayer?.stop()
             currentPlayer?.release()
             currentPlayer = MediaPlayer.create(context, audioUri)
@@ -80,10 +92,16 @@ class AudioController {
             currentPlayer = MediaPlayer.create(context, audioUri)
             currentPlayer?.start()
         }
+
+        val audio = audioDataArray.filter {
+            it.location == audioUri.toString()
+        }
+
+        currentAudio = audio[0]
     }
 
-    fun pauseOrPlay(button: ImageButton){
-        if(currentPlayer?.isPlaying!!){
+    fun pauseOrPlay(button: ImageButton) {
+        if (currentPlayer?.isPlaying!!) {
             currentPlayer?.pause()
             button.setImageResource(R.drawable.ic_play_btn)
         } else {
@@ -92,7 +110,11 @@ class AudioController {
         }
     }
 
-    fun resume(){
-        currentPlayer?.start()
+    fun handleChangeFavoriteAction(button: ImageButton) {
+        currentAudio.favorite = !currentAudio.favorite
+
+        val buttonResource =
+            if (currentAudio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
+        button.setImageResource(buttonResource)
     }
 }

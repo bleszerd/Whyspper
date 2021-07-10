@@ -7,6 +7,9 @@ import java.time.Duration
 //audio data model
 data class AudioModel(
     val title: String,
+    val artist: String,
+    var favorite: Boolean,
     val location: String,
-    val art: Bitmap?
+    val albumArt: Bitmap?,
+    val audioId: String
 )

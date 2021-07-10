@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="65dp"
     android:orientation="horizontal">
 
     <ImageView
@@ -10,49 +12,61 @@
         android:layout_height="match_parent"
         android:layout_marginRight="24dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/no_image_cover" />
+        android:src="@drawable/no_image_cover"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+    <TextView
+        android:paddingLeft="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintRight_toLeftOf="@id/playPauseActionButton"
+        android:id="@+id/audioTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Passarinhos"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/audioArtist"
+        app:layout_constraintLeft_toRightOf="@id/albumImageCover"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/audioTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Passarinhos"
-            android:textColor="@color/white" />
+    <TextView
+        android:paddingLeft="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintRight_toLeftOf="@id/playPauseActionButton"
+        android:id="@+id/audioArtist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Emicida"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/albumImageCover"
+        app:layout_constraintTop_toBottomOf="@id/audioTitle"
+        tools:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/audioArtist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Emicida"
-            android:textColor="@color/white" />
-    </LinearLayout>
+    <ImageButton
+        android:backgroundTint="#00ffffff"
+        android:id="@+id/playPauseActionButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="8dp"
+        android:src="@drawable/ic_pause_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/favoriteActionButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|end"
-        android:orientation="horizontal">
+    <ImageButton
+        android:backgroundTint="#00ffffff"
+        android:id="@+id/favoriteActionButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_favorite_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/playPauseActionButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="8dp"
-            android:src="@drawable/ic_pause_btn" />
-
-        <ImageButton
-            android:id="@+id/favoriteActionButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_favorite_empty" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,23 @@
 package bleszerd.com.github.whyspper.ui.activities
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import bleszerd.com.github.whyspper.R
-import bleszerd.com.github.whyspper.adapters.AudioAdapter
 import bleszerd.com.github.whyspper.controllers.AudioController
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.*
 import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelected
 
 class MainActivity : AppCompatActivity(), OnAudioSelected {
-    lateinit var playPauseButton: ImageButton
-
     //create a result contract with request permission activity
     private val permissionResult =
         registerForActivityResult(
@@ -136,7 +127,23 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
 
         //update bottom content to current music
         val imageCover = findViewById<ImageView>(R.id.albumImageCover)
-        imageCover.setImageBitmap(audio.art)
+        val musicTitle = findViewById<TextView>(R.id.audioTitle)
+        val musicArtist = findViewById<TextView>(R.id.audioArtist)
+
+        if(audio.albumArt != null){
+            imageCover.setImageBitmap(audio.albumArt)
+        } else {
+            imageCover.setImageResource(R.drawable.no_image_cover)
+        }
+
+        musicTitle.text = audio.title
+        musicArtist.text = audio.artist
+
+        //set favorite button drawable
+        val buttonLikeIcon = findViewById<ImageButton>(R.id.favoriteActionButton)
+        val buttonResource = if(audio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
+
+        buttonLikeIcon.setImageResource(buttonResource)
 
         //update image button resource
         val playPauseBtn = findViewById<ImageButton>(R.id.playPauseActionButton)
