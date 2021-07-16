@@ -5,7 +5,7 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.ImageButton
+import android.widget.ImageView
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
 
@@ -103,7 +103,6 @@ class AudioController {
 
                 currentPlayer?.start()
                 listener.onAudioStart(context, currentAudio)
-
             } else {
                 currentPlayer = MediaPlayer.create(context, audioUri)
                 listener.onAudioChange(context, currentAudio)
@@ -111,31 +110,31 @@ class AudioController {
                 currentPlayer?.start()
                 listener.onAudioStart(context, currentAudio)
             }
-        }
 
-        fun pauseOrPlay(button: ImageButton) {
-            if (currentPlayer?.isPlaying!!) {
-                currentPlayer?.pause()
-                listener.onAudioPause(currentAudio)
-
-                button.setImageResource(R.drawable.ic_play_btn)
-            } else {
-                currentPlayer?.start()
-                listener.onAudioResume(currentAudio)
-
-                button.setImageResource(R.drawable.ic_pause_btn)
+            currentPlayer?.setOnCompletionListener {
+                listener.onAudioEnd()
             }
         }
 
-        fun handleChangeFavoriteAction(button: ImageButton) {
+        fun pauseOrPlay() {
+            if (currentPlayer?.isPlaying!!) {
+                currentPlayer?.pause()
+                listener.onAudioPause(currentAudio)
+            } else {
+                currentPlayer?.start()
+                listener.onAudioResume(currentAudio)
+            }
+        }
+
+        fun handleChangeFavoriteAction(likeImageView: ImageView) {
             //change favorite state on click
             currentAudio.favorite = !currentAudio.favorite
 
-            val buttonResource =
+            val imgResource =
                 if (currentAudio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
 
             //update button resource
-            button.setImageResource(buttonResource)
+            likeImageView.setImageResource(imgResource)
         }
 
         private fun validateAudioExistence(audioPath: String): Boolean {
@@ -158,5 +157,6 @@ class AudioController {
         fun onAudioPause(currentAudio: AudioModel){}
         fun onAudioChange(context: Context, currentAudio: AudioModel){}
         fun onAudioResume(currentAudio: AudioModel){}
+        fun onAudioEnd(){}
     }
 }

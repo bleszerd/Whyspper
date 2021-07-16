@@ -21,6 +21,8 @@ class BottomAudioActionContentFragment : Fragment(), AudioListener {
     }
 
     lateinit var imageCover: ImageView
+    lateinit var pausePlayButton: ImageView
+    lateinit var likeButton: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +34,11 @@ class BottomAudioActionContentFragment : Fragment(), AudioListener {
         AudioController.listener = this
 
         imageCover = view.findViewById(R.id.albumImageCover)
-        val pausePlayButton = view.findViewById<ImageButton>(R.id.playPauseActionButton)
-        val likeButton = view.findViewById<ImageButton>(R.id.favoriteActionButton)
+        pausePlayButton = view.findViewById<ImageView>(R.id.playPauseActionButton)
+        likeButton = view.findViewById<ImageView>(R.id.favoriteActionButton)
 
         pausePlayButton.setOnClickListener {
-            AudioController.pauseOrPlay(pausePlayButton)
+            AudioController.pauseOrPlay()
         }
 
         likeButton.setOnClickListener {
@@ -47,11 +49,25 @@ class BottomAudioActionContentFragment : Fragment(), AudioListener {
     }
 
     override fun onAudioStart(context: Context, currentAudio: AudioModel) {
+        pausePlayButton.setImageResource(R.drawable.ic_pause_btn)
+
         if(currentAudio.albumArt == null){
-            imageCover.setColorFilter(R.color.dark)
+            imageCover.setColorFilter(R.color.black)
         } else {
             imageCover.clearColorFilter()
         }
         super.onAudioStart(context, currentAudio)
+    }
+
+    override fun onAudioPause(currentAudio: AudioModel) {
+        pausePlayButton.setImageResource(R.drawable.ic_play_btn)
+
+        super.onAudioPause(currentAudio)
+    }
+
+    override fun onAudioEnd() {
+        pausePlayButton.setImageResource(R.drawable.ic_play_btn)
+
+        super.onAudioEnd()
     }
 }

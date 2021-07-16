@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -128,7 +130,9 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
         val musicTitle = findViewById<TextView>(R.id.audioTitle)
         val musicArtist = findViewById<TextView>(R.id.audioArtist)
 
-
+        imageCover.visibility = View.VISIBLE
+        musicTitle.visibility = View.VISIBLE
+        musicArtist.visibility = View.VISIBLE
 
         if(audio.albumArt != null){
             imageCover.setImageBitmap(audio.albumArt)
@@ -140,13 +144,17 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
         musicArtist.text = audio.artist
 
         //set favorite button drawable
-        val buttonLikeIcon = findViewById<ImageButton>(R.id.favoriteActionButton)
+        val buttonLikeIcon = findViewById<ImageView>(R.id.favoriteActionButton)
         val buttonResource = if(audio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
 
         buttonLikeIcon.setImageResource(buttonResource)
 
         //update image button resource
-        val playPauseBtn = findViewById<ImageButton>(R.id.playPauseActionButton)
+        val playPauseBtn = findViewById<ImageView>(R.id.playPauseActionButton)
         playPauseBtn.setImageResource(R.drawable.ic_pause_btn)
+
+        //show icons
+        buttonLikeIcon.visibility = View.VISIBLE
+        playPauseBtn.visibility = View.VISIBLE
     }
 }
