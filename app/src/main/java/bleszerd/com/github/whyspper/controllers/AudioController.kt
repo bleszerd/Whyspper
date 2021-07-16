@@ -1,7 +1,7 @@
 package bleszerd.com.github.whyspper.controllers
 
 import android.content.Context
-import android.media.AudioAttributes
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.MediaStore
@@ -54,8 +54,13 @@ class AudioController {
                 val currentTitle = songCursor.getString(songTitle)
                 //get location uri
                 val currentLocation = songCursor.getString(songLocation)
+
+                //validate audio file existence
+                if (!validateAudioExistence(currentLocation)) continue
+
                 //get album img
-                val currentArtBitmap = bitmapController.getAlbumImage(currentLocation)
+                val currentArtBitmap = bitmapController.getAlbumImage(context, currentLocation)
+
                 //get artist
                 val currentArtist = songCursor.getString(songArtist)
                 //check if audio is favorite
@@ -116,5 +121,17 @@ class AudioController {
         val buttonResource =
             if (currentAudio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
         button.setImageResource(buttonResource)
+    }
+
+    fun validateAudioExistence(audioPath: String): Boolean {
+        val mediaRetriever = MediaMetadataRetriever()
+
+        return try {
+            //pointer the MediaMetadataRetriever to a specific path
+            mediaRetriever.setDataSource(audioPath)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }

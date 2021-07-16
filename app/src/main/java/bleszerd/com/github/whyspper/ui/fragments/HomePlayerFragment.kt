@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import bleszerd.com.github.whyspper.R
 
@@ -18,7 +17,7 @@ class HomePlayerFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.home_player_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_home_player, container, false)
 
         return view
     }

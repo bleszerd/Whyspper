@@ -13,6 +13,6 @@ class AudioItemFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.audio_item_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_audio_item, container, false)
     }
 }

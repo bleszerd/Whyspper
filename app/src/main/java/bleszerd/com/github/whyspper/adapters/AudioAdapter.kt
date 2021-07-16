@@ -31,7 +31,7 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
         return ViewHolder(
             LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.audio_item_fragment, parent, false)
+                .inflate(R.layout.fragment_audio_item, parent, false)
         )
     }
 

@@ -1,6 +1,5 @@
 package bleszerd.com.github.whyspper.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +28,7 @@ class AudioListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = layoutInflater
-            .inflate(R.layout.audio_list_fragment, container, false)
+            .inflate(R.layout.fragment_audio_list, container, false)
 
         //set recyclerview adapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)

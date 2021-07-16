@@ -8,7 +8,7 @@
     tools:context=".ui.activities.MainActivity">
 
     <FrameLayout
-        tools:layout="@layout/home_player_fragment"
+        tools:layout="@layout/fragment_home_player"
         android:id="@+id/frameRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

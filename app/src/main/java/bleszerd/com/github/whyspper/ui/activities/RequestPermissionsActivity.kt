@@ -13,14 +13,18 @@ import bleszerd.com.github.whyspper.R
 
 
 class RequestPermissionsActivity : AppCompatActivity() {
-    private val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 1
+
+    companion object {
+        const val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 1
+    }
+
     private val requiredPermissions = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.request_permissions_activity)
+        setContentView(R.layout.activity_request_permissions)
 
         //set buttonPermission on click
         findViewById<Button>(R.id.buttonPermission).setOnClickListener {
@@ -33,7 +37,7 @@ class RequestPermissionsActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(
             this,
             requiredPermissions,
-            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+            Companion.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
         )
     }
 
@@ -45,7 +49,7 @@ class RequestPermissionsActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
-            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
+            Companion.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
                 if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED){
                     //if permission is granted setResult to permissionContract and finish this activity
                     val resultIntent = Intent()

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.controllers.AudioController
@@ -22,7 +21,7 @@ class BottomAudioActionContentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.bottom_audio_action_content_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_bottom_audio_action_content, container, false)
 
         val pausePlayButton = view.findViewById<ImageButton>(R.id.playPauseActionButton)
         val likeButton = view.findViewById<ImageButton>(R.id.favoriteActionButton)

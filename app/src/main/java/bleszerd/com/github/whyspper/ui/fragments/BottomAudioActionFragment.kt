@@ -17,6 +17,6 @@ class BottomAudioActionFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_audio_action_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_bottom_audio_action, container, false)
     }
 }
