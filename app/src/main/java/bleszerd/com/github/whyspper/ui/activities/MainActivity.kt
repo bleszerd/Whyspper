@@ -128,10 +128,12 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
         val musicTitle = findViewById<TextView>(R.id.audioTitle)
         val musicArtist = findViewById<TextView>(R.id.audioArtist)
 
+
+
         if(audio.albumArt != null){
             imageCover.setImageBitmap(audio.albumArt)
         } else {
-            imageCover.setImageResource(R.drawable.no_image_cover)
+            imageCover.setImageResource(R.drawable.ic_album)
         }
 
         musicTitle.text = audio.title

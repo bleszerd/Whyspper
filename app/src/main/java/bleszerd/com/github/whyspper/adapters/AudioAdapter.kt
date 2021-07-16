@@ -1,10 +1,12 @@
 package bleszerd.com.github.whyspper.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
@@ -12,6 +14,7 @@ import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelect
 
 class AudioAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
+
     private lateinit var listener: OnAudioSelected
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,9 +23,9 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
             itemView.findViewById<TextView>(R.id.albumItemTitle).text = audioModel.title
             itemView.findViewById<TextView>(R.id.audioItemArtist).text = audioModel.artist
 
-            //set album image
-            if (audioModel.albumArt != null) {
-                itemView.findViewById<ImageView>(R.id.art).setImageBitmap(audioModel.albumArt)
+            if (audioModel.albumArt != null){
+                val coverImageView = itemView.findViewById<ImageView>(R.id.art)
+                coverImageView.setImageBitmap(audioModel.albumArt)
             }
         }
     }
@@ -49,6 +52,5 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
     }
 
     override fun getItemCount(): Int = arrayList.size
-
 
 }

@@ -34,7 +34,7 @@ class BitmapController {
             //BitmapFactory.decodeByteArray get the DATA and parse into bitmap
             return if (data != null)
                 BitmapFactory.decodeByteArray(data, 0, data.size)
-            else BitmapFactory.decodeResource(context.resources, R.drawable.no_image_cover, null)
+            else BitmapFactory.decodeResource(context.resources, R.drawable.ic_album, null)
         }
     }
 }

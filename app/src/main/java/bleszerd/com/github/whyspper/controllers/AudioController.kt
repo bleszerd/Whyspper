@@ -14,6 +14,7 @@ class AudioController {
         private var currentPlayer: MediaPlayer? = null
         private lateinit var currentAudio: AudioModel
         val audioDataArray = mutableListOf<AudioModel>()
+        lateinit var listener: AudioListener
 
         fun getAudiosFromDevice(context: Context): MutableList<AudioModel> {
             //Define the URL schema to search files
@@ -84,15 +85,25 @@ class AudioController {
         }
 
         fun playFromUri(context: Context, audioUri: Uri) {
-
             if (currentPlayer != null) {
                 currentPlayer?.stop()
+                listener.onAudioStop()
+
                 currentPlayer?.release()
+                listener.onAudioRelease()
+
                 currentPlayer = MediaPlayer.create(context, audioUri)
+                listener.onAudioChange()
+
                 currentPlayer?.start()
+                listener.onAudioStart()
+
             } else {
                 currentPlayer = MediaPlayer.create(context, audioUri)
+                listener.onAudioChange()
+
                 currentPlayer?.start()
+                listener.onAudioStart()
             }
 
             val audio = audioDataArray.filter {
@@ -105,9 +116,13 @@ class AudioController {
         fun pauseOrPlay(button: ImageButton) {
             if (currentPlayer?.isPlaying!!) {
                 currentPlayer?.pause()
+                listener.onAudioPause()
+
                 button.setImageResource(R.drawable.ic_play_btn)
             } else {
                 currentPlayer?.start()
+                listener.onAudioResume()
+
                 button.setImageResource(R.drawable.ic_pause_btn)
             }
         }
@@ -136,5 +151,12 @@ class AudioController {
         }
     }
 
-
+    interface AudioListener {
+        fun onAudioStop()
+        fun onAudioRelease()
+        fun onAudioStart()
+        fun onAudioPause()
+        fun onAudioChange()
+        fun onAudioResume()
+    }
 }
