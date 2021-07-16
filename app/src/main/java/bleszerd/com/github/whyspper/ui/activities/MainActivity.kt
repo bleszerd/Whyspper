@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
             }
         }
 
-    private val audioController = AudioController()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -92,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
 
     private fun initializeMainContent() {
         //fetch audios from device
-        audioController.getAudiosFromDevice(this)
+        AudioController.getAudiosFromDevice(this)
 
         //populate frame layout mainContentCenterHost
         supportFragmentManager
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
     //on album tap action
     override fun onAudioSelected(audio: AudioModel) {
         //play content from audioUri
-        audioController.playFromUri(applicationContext, Uri.parse(audio.location))
+        AudioController.playFromUri(applicationContext, Uri.parse(audio.location))
 
         //update bottom content to current music
         val imageCover = findViewById<ImageView>(R.id.albumImageCover)

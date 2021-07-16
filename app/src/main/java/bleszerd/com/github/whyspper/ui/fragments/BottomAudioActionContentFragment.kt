@@ -10,8 +10,6 @@ import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.controllers.AudioController
 
 class BottomAudioActionContentFragment : Fragment() {
-    private val audioController = AudioController()
-
     companion object {
         fun newInstance() = BottomAudioActionContentFragment()
     }
@@ -27,11 +25,11 @@ class BottomAudioActionContentFragment : Fragment() {
         val likeButton = view.findViewById<ImageButton>(R.id.favoriteActionButton)
 
         pausePlayButton.setOnClickListener {
-            audioController.pauseOrPlay(pausePlayButton)
+            AudioController.pauseOrPlay(pausePlayButton)
         }
 
         likeButton.setOnClickListener {
-            audioController.handleChangeFavoriteAction(likeButton)
+            AudioController.handleChangeFavoriteAction(likeButton)
         }
 
 
