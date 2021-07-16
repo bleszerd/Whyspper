@@ -12,11 +12,15 @@ import androidx.fragment.app.Fragment
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.controllers.AudioController
 import bleszerd.com.github.whyspper.controllers.AudioController.AudioListener
+import bleszerd.com.github.whyspper.models.AudioModel
+import kotlin.reflect.typeOf
 
 class BottomAudioActionContentFragment : Fragment(), AudioListener {
     companion object {
         fun newInstance() = BottomAudioActionContentFragment()
     }
+
+    lateinit var imageCover: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +31,7 @@ class BottomAudioActionContentFragment : Fragment(), AudioListener {
 
         AudioController.listener = this
 
-        val imageCover = view.findViewById<ImageView>(R.id.art)
+        imageCover = view.findViewById(R.id.albumImageCover)
         val pausePlayButton = view.findViewById<ImageButton>(R.id.playPauseActionButton)
         val likeButton = view.findViewById<ImageButton>(R.id.favoriteActionButton)
 
@@ -42,7 +46,12 @@ class BottomAudioActionContentFragment : Fragment(), AudioListener {
         return view
     }
 
-    override fun onAudioStart() {
-        println("Audio play")
+    override fun onAudioStart(context: Context, currentAudio: AudioModel) {
+        if(currentAudio.albumArt == null){
+            imageCover.setColorFilter(R.color.dark)
+        } else {
+            imageCover.clearColorFilter()
+        }
+        super.onAudioStart(context, currentAudio)
     }
 }

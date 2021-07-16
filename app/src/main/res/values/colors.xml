@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="dark">#2C2C2C</color>
-    <color name="soft_dark">#404040</color>
+    <color name="dark_alpha">#402C2C2C</color>
+    <color name="dark_brown">#351810</color>
     <color name="mango">#E96443</color>
     <color name="gum">#C57BFF</color>
     <color name="sweet_milk">#ECDCD9</color>

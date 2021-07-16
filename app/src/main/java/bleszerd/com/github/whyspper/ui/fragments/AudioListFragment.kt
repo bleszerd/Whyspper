@@ -47,9 +47,9 @@ class AudioListFragment : Fragment() {
         fun onAudioSelected(audio: AudioModel)
     }
 
-    fun startBackgroundAnimation(){
+    private fun startBackgroundAnimation(){
         val animationDrawable =  recyclerViewRoot.background as AnimationDrawable
-        animationDrawable.setExitFadeDuration(4000)
+        animationDrawable.setExitFadeDuration(2000)
         animationDrawable.start()
     }
 }

@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/mango_gum_gradient"
+    android:background="@color/mango"
     android:orientation="vertical">
 
     <FrameLayout
+        android:background="@drawable/container_top_shadow"
         android:id="@+id/bottomAudioActionContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -85,43 +85,43 @@ class AudioController {
         }
 
         fun playFromUri(context: Context, audioUri: Uri) {
-            if (currentPlayer != null) {
-                currentPlayer?.stop()
-                listener.onAudioStop()
-
-                currentPlayer?.release()
-                listener.onAudioRelease()
-
-                currentPlayer = MediaPlayer.create(context, audioUri)
-                listener.onAudioChange()
-
-                currentPlayer?.start()
-                listener.onAudioStart()
-
-            } else {
-                currentPlayer = MediaPlayer.create(context, audioUri)
-                listener.onAudioChange()
-
-                currentPlayer?.start()
-                listener.onAudioStart()
-            }
-
-            val audio = audioDataArray.filter {
+            val currentAudioArray = audioDataArray.filter {
                 it.location == audioUri.toString()
             }
 
-            currentAudio = audio[0]
+            this.currentAudio = currentAudioArray[0]
+
+            if (currentPlayer != null) {
+                currentPlayer?.stop()
+                listener.onAudioStop(context, currentAudio)
+
+                currentPlayer?.release()
+                listener.onAudioRelease(context, currentAudio)
+
+                currentPlayer = MediaPlayer.create(context, audioUri)
+                listener.onAudioChange(context, currentAudio)
+
+                currentPlayer?.start()
+                listener.onAudioStart(context, currentAudio)
+
+            } else {
+                currentPlayer = MediaPlayer.create(context, audioUri)
+                listener.onAudioChange(context, currentAudio)
+
+                currentPlayer?.start()
+                listener.onAudioStart(context, currentAudio)
+            }
         }
 
         fun pauseOrPlay(button: ImageButton) {
             if (currentPlayer?.isPlaying!!) {
                 currentPlayer?.pause()
-                listener.onAudioPause()
+                listener.onAudioPause(currentAudio)
 
                 button.setImageResource(R.drawable.ic_play_btn)
             } else {
                 currentPlayer?.start()
-                listener.onAudioResume()
+                listener.onAudioResume(currentAudio)
 
                 button.setImageResource(R.drawable.ic_pause_btn)
             }
@@ -152,11 +152,11 @@ class AudioController {
     }
 
     interface AudioListener {
-        fun onAudioStop()
-        fun onAudioRelease()
-        fun onAudioStart()
-        fun onAudioPause()
-        fun onAudioChange()
-        fun onAudioResume()
+        fun onAudioStop(context: Context, currentAudio: AudioModel){}
+        fun onAudioRelease(context: Context, currentAudio: AudioModel){}
+        fun onAudioStart(context: Context, currentAudio: AudioModel){}
+        fun onAudioPause(currentAudio: AudioModel){}
+        fun onAudioChange(context: Context, currentAudio: AudioModel){}
+        fun onAudioResume(currentAudio: AudioModel){}
     }
 }
