@@ -13,11 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.controllers.AudioController
+import bleszerd.com.github.whyspper.listeners.AudioTapListener
 import bleszerd.com.github.whyspper.models.AudioModel
-import bleszerd.com.github.whyspper.ui.fragments.*
-import bleszerd.com.github.whyspper.adapters.AudioAdapter.OnAudioSelected
+import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment
+import bleszerd.com.github.whyspper.ui.fragments.BottomAudioActionFragment
+import bleszerd.com.github.whyspper.ui.fragments.HeaderTopFragment
+import bleszerd.com.github.whyspper.ui.fragments.HomePlayerFragment
 
-class MainActivity : AppCompatActivity(), OnAudioSelected {
+class MainActivity : AppCompatActivity() {
     //create a result contract with request permission activity
     private val permissionResult =
         registerForActivityResult(
@@ -107,43 +110,5 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
             this,
             Manifest.permission.READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    //on album tap action
-    override fun onAudioSelected(audio: AudioModel) {
-        //play content from audioUri
-        AudioController.playFromUri(applicationContext, Uri.parse(audio.location))
-
-        //update bottom content to current music
-        val imageCover = findViewById<ImageView>(R.id.albumImageCover)
-        val musicTitle = findViewById<TextView>(R.id.audioTitle)
-        val musicArtist = findViewById<TextView>(R.id.audioArtist)
-
-        imageCover.visibility = View.VISIBLE
-        musicTitle.visibility = View.VISIBLE
-        musicArtist.visibility = View.VISIBLE
-
-        if(audio.albumArt != null){
-            imageCover.setImageBitmap(audio.albumArt)
-        } else {
-            imageCover.setImageResource(R.drawable.ic_album)
-        }
-
-        musicTitle.text = audio.title
-        musicArtist.text = audio.artist
-
-        //set favorite button drawable
-        val buttonLikeIcon = findViewById<ImageView>(R.id.favoriteActionButton)
-        val buttonResource = if(audio.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
-
-        buttonLikeIcon.setImageResource(buttonResource)
-
-        //update image button resource
-        val playPauseBtn = findViewById<ImageView>(R.id.playPauseActionButton)
-        playPauseBtn.setImageResource(R.drawable.ic_pause_btn)
-
-        //show icons
-        buttonLikeIcon.visibility = View.VISIBLE
-        playPauseBtn.visibility = View.VISIBLE
     }
 }

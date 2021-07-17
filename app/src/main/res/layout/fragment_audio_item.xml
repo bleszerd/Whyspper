@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:padding="8dp"
+    android:layout_marginHorizontal="8dp"
+    android:background="@drawable/rounded_audio_item"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -27,7 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="24dp">
+        android:paddingEnd="16dp"
+        android:paddingStart="24dp">
 
         <TextView
             android:id="@+id/albumItemTitle"
@@ -35,7 +38,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Music Name"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

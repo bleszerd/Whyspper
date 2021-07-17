@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.widget.ImageView
 import bleszerd.com.github.whyspper.R
+import bleszerd.com.github.whyspper.listeners.AudioStateListener
 import bleszerd.com.github.whyspper.models.AudioModel
 
 class AudioController {
@@ -14,7 +15,7 @@ class AudioController {
         private var currentPlayer: MediaPlayer? = null
         private lateinit var currentAudio: AudioModel
         val audioDataArray = mutableListOf<AudioModel>()
-        lateinit var listener: AudioListener
+        lateinit var listener: AudioStateListener
 
         fun getAudiosFromDevice(context: Context): MutableList<AudioModel> {
             //Define the URL schema to search files
@@ -116,7 +117,7 @@ class AudioController {
             }
         }
 
-        fun pauseOrPlay() {
+        fun togglePlayPauseState() {
             if (currentPlayer?.isPlaying!!) {
                 currentPlayer?.pause()
                 listener.onAudioPause(currentAudio)
@@ -126,7 +127,7 @@ class AudioController {
             }
         }
 
-        fun handleChangeFavoriteAction(likeImageView: ImageView) {
+        fun toggleFavoriteState(likeImageView: ImageView) {
             //change favorite state on click
             currentAudio.favorite = !currentAudio.favorite
 
@@ -150,13 +151,4 @@ class AudioController {
         }
     }
 
-    interface AudioListener {
-        fun onAudioStop(context: Context, currentAudio: AudioModel){}
-        fun onAudioRelease(context: Context, currentAudio: AudioModel){}
-        fun onAudioStart(context: Context, currentAudio: AudioModel){}
-        fun onAudioPause(currentAudio: AudioModel){}
-        fun onAudioChange(context: Context, currentAudio: AudioModel){}
-        fun onAudioResume(currentAudio: AudioModel){}
-        fun onAudioEnd(){}
-    }
 }

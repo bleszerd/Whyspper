@@ -7,22 +7,32 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
+import bleszerd.com.github.whyspper.exceptions.ListenerException
+import bleszerd.com.github.whyspper.listeners.AudioTapListener
 import bleszerd.com.github.whyspper.models.AudioModel
 
 class AudioAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
 
-    private lateinit var listener: OnAudioSelected
+    companion object {
+        const val INITIAL_SELECTED_POSITION_VALUE: Int = -1
+        var listener: AudioTapListener? = null
+        var selectedPositions: Int = INITIAL_SELECTED_POSITION_VALUE;
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(audioModel: AudioModel) {
+            itemView.isSelected = selectedPositions == adapterPosition
+
             //set text labels
             itemView.findViewById<TextView>(R.id.albumItemTitle).text = audioModel.title
             itemView.findViewById<TextView>(R.id.audioItemArtist).text = audioModel.artist
+            val coverImageView = itemView.findViewById<ImageView>(R.id.art)
 
             if (audioModel.albumArt != null){
-                val coverImageView = itemView.findViewById<ImageView>(R.id.art)
                 coverImageView.setImageBitmap(audioModel.albumArt)
+            } else {
+                coverImageView.setImageResource(R.drawable.ic_album)
             }
         }
     }
@@ -36,23 +46,20 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
     }
 
     override fun onBindViewHolder(holder: AudioAdapter.ViewHolder, position: Int) {
-        holder.bind(arrayList[position])
+        val currentAudioModel = arrayList[position]
+        holder.bind(currentAudioModel)
 
-        //check if activity implements OnAudioSelected interface
-        val context = holder.itemView.context
-        if (context is OnAudioSelected) {
-            listener = context
-        }
+        if(listener == null)
+            throw ListenerException(this::class.java)
 
-        holder.itemView.setOnClickListener {
-            listener.onAudioSelected(arrayList[position])
+        holder.itemView.setOnClickListener { view ->
+            selectedPositions = holder.adapterPosition
+
+            listener?.onAudioSelected(view, currentAudioModel)
+
+            notifyDataSetChanged()
         }
     }
 
     override fun getItemCount(): Int = arrayList.size
-
-    interface OnAudioSelected{
-        fun onAudioSelected(audio: AudioModel)
-    }
-
 }

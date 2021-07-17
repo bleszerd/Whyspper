@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import bleszerd.com.github.whyspper.R
-import java.lang.Exception
 
 class BitmapController {
     companion object {
@@ -18,7 +17,7 @@ class BitmapController {
             try {
                 //pointer the MediaMetadataRetriever to a specific path
                 mediaRetriever.setDataSource(audioPath)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 println(e.message)
                 return null
             }
@@ -26,7 +25,6 @@ class BitmapController {
 
             //get a album picture from metadata
             data = mediaRetriever.embeddedPicture
-            println(data.toString())
             //can be used for extract a lot of others info's
             //val bitrate = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
 
