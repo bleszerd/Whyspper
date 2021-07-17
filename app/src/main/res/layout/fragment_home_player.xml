@@ -17,16 +17,15 @@
         android:id="@+id/mainContentCenterHost"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/dark"
         app:layout_constraintTop_toBottomOf="@id/headerTopSectionHost"
-        app:layout_constraintBottom_toTopOf="@+id/bottomActionSectionHost" />
+        app:layout_constraintBottom_toTopOf="@id/bottomActionSectionHost"/>
 
     <FrameLayout
         android:id="@+id/bottomActionSectionHost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="65dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/mainContentCenterHost"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,13 +6,13 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
-    <color name="dark">#2C2C2C</color>
+    <color name="dark">#011C0D</color>
     <color name="dark_alpha">#402C2C2C</color>
     <color name="dark_brown">#351810</color>
-    <color name="mango">#E96443</color>
+    <color name="mango">#049C48</color>
     <color name="gum">#C57BFF</color>
     <color name="sweet_milk">#ECDCD9</color>
-    <color name="dark_white">#BCBCBC</color>
+    <color name="dark_white">#D6D6D6</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

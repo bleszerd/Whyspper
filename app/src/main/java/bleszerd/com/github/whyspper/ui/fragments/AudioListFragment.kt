@@ -1,6 +1,5 @@
 package bleszerd.com.github.whyspper.ui.fragments
 
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,18 +37,7 @@ class AudioListFragment : Fragment() {
         recyclerViewRoot.layoutManager = LinearLayoutManager(activity)
         recyclerViewRoot.adapter = AudioAdapter(arrayListMusic)
 
-        startBackgroundAnimation()
-
         return view
     }
 
-    interface OnAudioSelected{
-        fun onAudioSelected(audio: AudioModel)
-    }
-
-    private fun startBackgroundAnimation(){
-        val animationDrawable =  recyclerViewRoot.background as AnimationDrawable
-        animationDrawable.setExitFadeDuration(2000)
-        animationDrawable.start()
-    }
 }

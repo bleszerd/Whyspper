@@ -4,6 +4,5 @@
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/milk_softmango_gradient_animation"
     android:orientation="vertical"
     tools:listitem="@layout/fragment_audio_item" />

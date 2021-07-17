@@ -4,10 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,7 +15,7 @@ import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.controllers.AudioController
 import bleszerd.com.github.whyspper.models.AudioModel
 import bleszerd.com.github.whyspper.ui.fragments.*
-import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelected
+import bleszerd.com.github.whyspper.adapters.AudioAdapter.OnAudioSelected
 
 class MainActivity : AppCompatActivity(), OnAudioSelected {
     //create a result contract with request permission activity
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
             initializeFrameRoot()
             initializeTopHeaderSection()
             initializeBottomActionSection()
-            initializeBottomAudioActionContent()
 
             if (isExternalStoragePermissionGranted()) {
                 initializeMainContent()
@@ -81,14 +78,6 @@ class MainActivity : AppCompatActivity(), OnAudioSelected {
             .add(R.id.frameRoot, HomePlayerFragment.newInstance())
             .commit()
     }
-
-    private fun initializeBottomAudioActionContent() {
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.bottomAudioActionContent, BottomAudioActionContentFragment.newInstance())
-            .commit()
-    }
-
 
     private fun initializeMainContent() {
         //fetch audios from device

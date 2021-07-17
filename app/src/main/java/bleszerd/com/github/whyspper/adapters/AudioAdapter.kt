@@ -1,16 +1,13 @@
 package bleszerd.com.github.whyspper.adapters
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import bleszerd.com.github.whyspper.R
 import bleszerd.com.github.whyspper.models.AudioModel
-import bleszerd.com.github.whyspper.ui.fragments.AudioListFragment.OnAudioSelected
 
 class AudioAdapter(private val arrayList: List<AudioModel>) :
     RecyclerView.Adapter<AudioAdapter.ViewHolder>() {
@@ -46,11 +43,16 @@ class AudioAdapter(private val arrayList: List<AudioModel>) :
         if (context is OnAudioSelected) {
             listener = context
         }
+
         holder.itemView.setOnClickListener {
             listener.onAudioSelected(arrayList[position])
         }
     }
 
     override fun getItemCount(): Int = arrayList.size
+
+    interface OnAudioSelected{
+        fun onAudioSelected(audio: AudioModel)
+    }
 
 }
